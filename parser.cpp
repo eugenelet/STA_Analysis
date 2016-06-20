@@ -23,7 +23,7 @@ void read_line_as_token(const string &line, vector<string> &tokens)
 	if(token.size()!=0 && token[0]!=' ')
 	tokens.push_back(token);
 }
-void parse_circuit(const string  &circuit_path ,vector<node> &circuit ,vector<string> &input ,
+void parse_circuit(const string  &circuit_path ,vector<node*> &circuit ,vector<string> &input ,
 vector<string> &output ,vector<string> &wire )
 {
 	//cout<<"/////"<<endl;
@@ -95,31 +95,31 @@ vector<string> &output ,vector<string> &wire )
 		
 		if(tokens[0]=="NOT1")
 		{
-			node temp;
-			temp.type = tokens[0];
-			temp.name = tokens[1];
-			temp.out = tokens[5];
-			temp.input.push_back(tokens[3]);
+			node* temp = new node;
+			temp->type = tokens[0];
+			temp->name = tokens[1];
+			temp->out = tokens[5];
+			temp->input.push_back(tokens[3]);
 			circuit.push_back(temp);
 		}
 		else if(tokens[0]=="NAND2")
 		{
-			node temp;
-			temp.type = tokens[0];
-			temp.name = tokens[1];
-			temp.out = tokens[7];
-			temp.input.push_back(tokens[3]);
-			temp.input.push_back(tokens[5]);
+			node* temp = new node;
+			temp->type = tokens[0];
+			temp->name = tokens[1];
+			temp->out = tokens[7];
+			temp->input.push_back(tokens[3]);
+			temp->input.push_back(tokens[5]);
 			circuit.push_back(temp);
 		}
 		else if(tokens[0]=="NOR2")
 		{
-			node temp;
-			temp.type = tokens[0];
-			temp.name = tokens[1];
-			temp.out = tokens[7];
-			temp.input.push_back(tokens[3]);
-			temp.input.push_back(tokens[5]);
+			node* temp = new node;
+			temp->type = tokens[0];
+			temp->name = tokens[1];
+			temp->out = tokens[7];
+			temp->input.push_back(tokens[3]);
+			temp->input.push_back(tokens[5]);
 			circuit.push_back(temp);
 		}
 

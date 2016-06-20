@@ -9,8 +9,9 @@ using namespace std;
 
 struct node;
 
-void parse_circuit(const string  &circuit_path ,vector<node> &circuit ,vector<string> &input ,
+void parse_circuit(const string  &circuit_path ,vector<node*> &circuit ,vector<string> &input ,
 vector<string> &output ,vector<string> &wire );
+void debug_parser(vector<node*> circuit, vector<string> input, vector<string> output, vector<string> wire);
 
 typedef struct node
 {
