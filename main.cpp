@@ -11,7 +11,7 @@ int main(int argc, char * argv[])
 
 	string circuit_path;
 	string output_path;
-	
+	vector<node*> tree_out;
 	if(argc!=3)
 	{
 		cout<<"Format Error; ./program [cell.lib] [input_circuit] [output_file_path]"<<endl;
@@ -29,7 +29,8 @@ int main(int argc, char * argv[])
 	vector<string> wire;
 	parse_circuit( circuit_path ,circuit ,input ,output ,wire );
 	debug_parser(circuit, input, output, wire);
-	//generate_tree(circuit, output, input);
+	tree_out = generate_tree(circuit, input, output);
+	traverse_tree(tree_out);
 	
 	return 0;
 }

@@ -2,7 +2,9 @@ CC=g++
 CFLAGS=-c -Wall
 DFLAGS=-g
 OUT=EDA
-SRC=main.cpp parser.cpp debug.cpp
+SRC=main.cpp parser.cpp debug.cpp generateTree.cpp node.cpp
+CASE=case1
+
 
 all: $(OUT)
 
@@ -11,7 +13,7 @@ $(OUT): $(SRC)
 
 
 run: $(OUT)
-	./$(OUT) case1 tmp.rpt 	
+	./$(OUT) $(CASE) tmp.rpt 	
 
 
 clean:

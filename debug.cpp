@@ -33,4 +33,36 @@ void debug_parser(vector<node*> circuit,
 		cout <<circuit[i]->out <<endl;
 	}
 }
-	
+
+void traverse_tree(vector<node*> tree_out)
+{
+	//cout << tree_out.size();
+	for(int i = 0 ; i < tree_out.size(); i++)
+	{
+		node* currentNode;
+		list<node*> queue;
+		queue.push_back(tree_out[i]);
+		cout << tree_out[i]->name << endl;
+		cout << queue.size();
+		while(!queue.empty())
+		{
+			currentNode = queue.front();
+			queue.pop_front();
+			cout << currentNode->out << " -> ";
+			for(int k = 0; k < currentNode->input.size(); k++)
+			{
+				if((k == 0) && (currentNode->left != NULL))
+				{
+					queue.push_back(currentNode->left);
+						
+				}
+				else if((k == 1) && (currentNode->right != NULL))
+				{
+					queue.push_back(currentNode->right);
+				}
+			}
+		}
+		cout << endl;
+	}
+
+}

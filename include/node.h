@@ -4,17 +4,22 @@
 #include <cstring>
 #include <vector>
 #include <queue>
+#include <list>
 
 using namespace std;
 
-struct node;
+class node;
 
 void parse_circuit(const string  &circuit_path ,vector<node*> &circuit ,vector<string> &input ,
 vector<string> &output ,vector<string> &wire );
 void debug_parser(vector<node*> circuit, vector<string> input, vector<string> output, vector<string> wire);
+vector<node*> generate_tree(vector<node*> circuit, vector<string> input, vector<string> output);
+void traverse_tree(vector<node*> tree_out);
 
-typedef struct node
+class node
 {
+public:
+	node();
 	string name;
 	string type;
 	string out;
@@ -22,4 +27,5 @@ typedef struct node
 	node* left;
 	node* right;
 	vector<node*> parent;
-}node;
+	bool visited;
+};
