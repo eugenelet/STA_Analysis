@@ -6,4 +6,5 @@ node::node()
 	visited_path = false;
 	left = NULL;
 	right = NULL;
+	delay = -1;
 }

@@ -31,5 +31,6 @@ public:
 	vector<node*> parent;
 	bool visited;
 	bool visited_path;
+	int delay;
 	stack<vector<node*> > path;
 };
