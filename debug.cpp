@@ -157,7 +157,7 @@ vector<vector<node*> > generate_path(vector<node*> tree_out)
 		}
 	}
 
-	insert_delay(total_path);
+	//insert_delay(total_path);
 	print_path(total_path);
 	return total_path;
 }

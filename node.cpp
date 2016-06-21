@@ -7,4 +7,10 @@ node::node()
 	left = NULL;
 	right = NULL;
 	delay = -1;
+	 A=-1;
+	 B=-1;
+	 Y=-1;
+	 fix=-1;
+	 A_tf=-1;
+	 B_tf=-1;
 }

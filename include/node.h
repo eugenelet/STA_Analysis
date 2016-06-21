@@ -20,6 +20,7 @@ vector<vector<node*> > generate_path(vector<node*> tree_out);
 void print( vector<node*> path,vector<node*> &circuit ,int rf);
 void print_input(vector<node*> input_node);
 void print_circuit(vector<node*> circuit);
+bool node_judge(node* current);
 
 class node
 {
@@ -40,5 +41,7 @@ public:
 	int B;
 	int Y;
 	int fix;
+	int A_tf;
+	int B_tf;
 	
 };

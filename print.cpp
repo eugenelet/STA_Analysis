@@ -8,6 +8,7 @@ void print( vector<node*> path,vector<node*> &circuit ,int rf)
 	{
 		circuit[i]->A=-1;
 		circuit[i]->B=-1;
+		circuit[i]->Y=-1;
 		circuit[i]->fix=-1;
 		if(circuit[i]->name == path[0]->name)
 			track = circuit[i];
