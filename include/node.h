@@ -34,5 +34,17 @@ public:
 	bool visited;
 	bool visited_path;
 	int delay;
+	int hierarchy;
 	stack<vector<node*> > path;
+	vector<node*> SAT_input;
+	stack<node*> BFS_stack;
 };
+
+
+class return_condition
+{
+public:
+	return_condition();
+	bool set_valid;
+	unsigned int input_count;
+}
