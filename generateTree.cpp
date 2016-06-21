@@ -32,8 +32,11 @@ vector<node*> generate_tree(vector<node*> &circuit, vector<string> input, vector
 					{
 						if(currentNode->input[k] == circuit[l]->out)
 						{
-							currentNode->left = circuit[l];
-							currentNode->left->parent.push_back(currentNode);
+							if(currentNode->left != circuit[l])
+							{
+								currentNode->left = circuit[l];
+								currentNode->left->parent.push_back(currentNode);
+							}
 
 							//multiple fan-out point
 							if(!currentNode->left->visited){
@@ -66,8 +69,11 @@ vector<node*> generate_tree(vector<node*> &circuit, vector<string> input, vector
 					{
 						if(currentNode->input[k] == circuit[l]->out)
 						{
-							currentNode->right = circuit[l];
-							currentNode->right->parent.push_back(currentNode);
+							if(currentNode->right != circuit[l])
+							{
+								currentNode->right = circuit[l];
+								currentNode->right->parent.push_back(currentNode);
+							}
 							//multiple fan-out point
 							if(!currentNode->right->visited){
 								queue.push_back(circuit[l]);
