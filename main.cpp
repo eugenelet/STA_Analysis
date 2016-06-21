@@ -12,6 +12,7 @@ int main(int argc, char * argv[])
 	string circuit_path;
 	string output_path;
 	vector<node*> tree_out;
+	vector<node*> input_node;
 	vector<vector<node*> > total_path;
 	if(argc!=3)
 	{
@@ -30,9 +31,11 @@ int main(int argc, char * argv[])
 	vector<string> wire;
 	parse_circuit( circuit_path ,circuit ,input ,output ,wire );
 	debug_parser(circuit, input, output, wire);
-	tree_out = generate_tree(circuit, input, output);
+	tree_out = generate_tree(circuit, input, output, input_node);
 	//traverse_tree(tree_out);
 	total_path = generate_path(tree_out);
+	print_input(input_node);
+	print_circuit(circuit);
 	
 	return 0;
 }
