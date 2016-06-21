@@ -33,6 +33,17 @@ int main(int argc, char * argv[])
 	tree_out = generate_tree(circuit, input, output);
 	//traverse_tree(tree_out);
 	total_path = generate_path(tree_out);
+	for(int i=0;i<total_path.size();++i)
+	{
+		print (total_path[i],circuit,1);
+	}
+	//cout<< "dasjdlaksdjla"<<endl;
+	for(int i=0;i<circuit.size();++i)
+	{
+		cout << circuit[i]->name <<" "<<circuit[i]->type <<" fix="<<circuit[i]->fix <<" A="<<circuit[i]->A\
+		<<" B="<<circuit[i]->B<<endl;
+	}
+	
 	
 	return 0;
 }

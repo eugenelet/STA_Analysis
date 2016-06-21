@@ -17,7 +17,7 @@ void debug_parser(vector<node*> circuit, vector<string> input, vector<string> ou
 vector<node*> generate_tree(vector<node*> circuit, vector<string> input, vector<string> output);
 void traverse_tree(vector<node*> tree_out);
 vector<vector<node*> > generate_path(vector<node*> tree_out);
-
+void print( vector<node*> path,vector<node*> &circuit ,int rf);
 class node
 {
 public:
@@ -32,4 +32,9 @@ public:
 	bool visited;
 	bool visited_path;
 	stack<vector<node*> > path;
+	int A;
+	int B;
+	int Y;
+	int fix;
+	
 };
