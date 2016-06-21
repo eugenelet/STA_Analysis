@@ -130,7 +130,7 @@ int main(int argc, char * argv[])
 	
 	//cout<<"/////"<<endl;
 	
-     bool jj=node_judge(pot);
+     //bool jj=node_judge(pot);
 	
 	
 	print_input(input_node);

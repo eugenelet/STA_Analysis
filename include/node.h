@@ -19,7 +19,7 @@ void traverse_tree(vector<node*> tree_out);
 vector<vector<node*> > generate_path(vector<node*> tree_out);
 void print_input(vector<node*> input_node);
 void print_circuit(vector<node*> circuit);
-
+bool node_judge(node* current);
 class node
 {
 public:
@@ -38,7 +38,12 @@ public:
 	stack<vector<node*> > path;
 	vector<node*> SAT_input;
 	stack<node*> BFS_stack;
-	
+	int A;
+	int B;
+	int Y;
+	int fix;
+	int A_tf;
+	int B_tf;
 };
 
 
@@ -48,4 +53,4 @@ public:
 	return_condition();
 	bool set_valid;
 	unsigned int input_count;
-}
+};
