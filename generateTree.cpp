@@ -50,6 +50,7 @@ vector<node*> generate_tree(vector<node*> circuit, vector<string> input, vector<
 							dummyNode->name = currentNode->input[k];
 							dummyNode->type = "INPUT";
 							dummyNode->out = currentNode->input[k];
+							dummyNode->delay = 0;
 							currentNode->left = dummyNode;
 							dummyNode->parent.push_back(currentNode);
 						}
@@ -79,6 +80,7 @@ vector<node*> generate_tree(vector<node*> circuit, vector<string> input, vector<
 							dummyNode->name = currentNode->input[k];
 							dummyNode->type = "INPUT";
 							dummyNode->out = currentNode->input[k];
+							dummyNode->delay = 0;
 							currentNode->right = dummyNode;
 							dummyNode->parent.push_back(currentNode);
 						}

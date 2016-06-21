@@ -34,13 +34,43 @@ void debug_parser(vector<node*> circuit,
 	}
 }
 
+void insert_delay(vector<vector<node*> > total_path)
+{
+	for(int i = 0; i < total_path.size(); i++)
+	{
+		for(int j = (total_path[i].size() - 1); j >= 0 ; j--)
+		{
+			if(total_path[i][j]->input.size() == 0)
+			{
+				continue; //initialized at dummy node
+			}
+			else if(total_path[i][j]->input.size() == 1)
+			{
+				total_path[i][j]->delay = max((total_path[i][j]->left->delay + 1), total_path[i][j]->delay);
+			}
+			else if(total_path[i][j]->input.size() == 2)
+			{
+				int temp = max((total_path[i][j]->left->delay + 1), total_path[i][j]->delay);
+				total_path[i][j]->delay = max((total_path[i][j]->right->delay + 1), temp);
+			}
+		}
+	}
+
+
+	for(int i = 0; i < total_path.size(); i++)
+	{
+		cout <<  total_path[i][0]->out << ": " << total_path[i][0]->delay << endl;
+	}
+}
+
+
 void print_path(vector<vector<node*> > total_path)
 {
 	for(int i = 0; i < total_path.size(); i++)
 	{
 		for(int j = 0; j < total_path[i].size(); j++)
 		{
-			cout << total_path[i][j]->out << " ( " << total_path[i][j]->type << " ) <- ";
+			cout << total_path[i][j]->out << " ( " << total_path[i][j]->type << " ) " << "[" << total_path[i][j]->delay << "]" << "<- ";
 		}
 		cout << endl;
 	}
@@ -104,6 +134,7 @@ vector<vector<node*> > generate_path(vector<node*> tree_out)
 		}
 	}
 
+	insert_delay(total_path);
 	print_path(total_path);
 	return total_path;
 }
