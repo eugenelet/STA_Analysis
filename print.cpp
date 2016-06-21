@@ -15,10 +15,7 @@ void print( vector<node*> path,vector<node*> &circuit ,int rf)
 	for(int i=0;i<path.size();i++)
 	{
 		track->Y=jr;
-		if(track->input.size() == 0)
-		{
-			break;
-		}
+		cout << "size "<<track->parent.size()<<endl;
 		for(int j=0;j<track->parent.size();++j)
 		{
 			if(track->parent[j]->left->name == track->name)
@@ -36,7 +33,10 @@ void print( vector<node*> path,vector<node*> &circuit ,int rf)
 			//cout << track->parent[j]->name <<" A" << track->parent[j]->A <<" B" << track->parent[j]->B\
              //     << " fix" << track->parent[j]->fix <<endl;			
 		}
-			
+		if(track->input.size() == 0)
+		{
+			break;
+		}	
 		if(jr == 1)
 			jr=0;
 		else
