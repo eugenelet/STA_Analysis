@@ -1,6 +1,6 @@
 #include "include/node.h"
 
-vector<node*> generate_tree(vector<node*> circuit, vector<string> input, vector<string> output)
+vector<node*> generate_tree(vector<node*> &circuit, vector<string> input, vector<string> output, vector<node*> &input_node)
 {
 	vector<node*> out_nodes;
 	for(int i = 0; i < output.size(); i++){
@@ -53,6 +53,8 @@ vector<node*> generate_tree(vector<node*> circuit, vector<string> input, vector<
 							dummyNode->delay = 0;
 							currentNode->left = dummyNode;
 							dummyNode->parent.push_back(currentNode);
+							circuit.push_back(dummyNode);
+							input_node.push_back(dummyNode);
 						}
 							
 					}
@@ -83,6 +85,8 @@ vector<node*> generate_tree(vector<node*> circuit, vector<string> input, vector<
 							dummyNode->delay = 0;
 							currentNode->right = dummyNode;
 							dummyNode->parent.push_back(currentNode);
+							circuit.push_back(dummyNode);
+							input_node.push_back(dummyNode);
 						}
 							
 					}

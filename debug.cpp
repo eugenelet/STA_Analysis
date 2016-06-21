@@ -34,6 +34,29 @@ void debug_parser(vector<node*> circuit,
 	}
 }
 
+void print_input(vector<node*> input_node)
+{
+	cout << "=================================================" << endl;
+	cout << "		INPUTS 								" << endl;
+	cout << "=================================================" << endl;
+	cout << "Input Size: "<< input_node.size() << endl;
+	for(int i = 0; i < input_node.size(); i++)
+	{
+		cout << input_node[i]->out << endl;
+	}
+}
+
+void print_circuit(vector<node*> circuit)
+{
+	cout << "=================================================" << endl;
+	cout << "		CIRCUITS							" << endl;
+	cout << "=================================================" << endl;
+	for(int i = 0; i < circuit.size(); i++)
+	{
+		cout << circuit[i]->out << endl;
+	}
+}
+
 void insert_delay(vector<vector<node*> > total_path)
 {
 	for(int i = 0; i < total_path.size(); i++)

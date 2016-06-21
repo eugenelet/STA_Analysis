@@ -3,7 +3,7 @@ CFLAGS=-c -Wall
 DFLAGS=-g
 OUT=EDA
 SRC=main.cpp parser.cpp debug.cpp generateTree.cpp node.cpp print.cpp
-CASE=test1.txt
+CASE=case/test1.txt
 
 
 all: $(OUT)
