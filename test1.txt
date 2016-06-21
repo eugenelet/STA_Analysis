@@ -1,0 +1,14 @@
+input a1,a2,b1;
+
+output m1,m2;
+
+wire n1,n2,n3;
+
+
+NOT1 U1 ( .A(a1), .Y(n1) );
+NOR2 U2 ( .A(n1), .B(a2), .Y(n2) );
+NAND2 U3 ( .A(n1), .B(n2), .Y(m1) );
+NAND2 U4 ( .A(a2), .B(b1), .Y(n3) );
+NOR2 U5 ( .A(a2), .B(n3), .Y(m2) );
+
+endmodule

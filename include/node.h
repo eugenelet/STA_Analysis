@@ -5,6 +5,7 @@
 #include <vector>
 #include <queue>
 #include <list>
+#include <stack>
 
 using namespace std;
 
@@ -15,6 +16,7 @@ vector<string> &output ,vector<string> &wire );
 void debug_parser(vector<node*> circuit, vector<string> input, vector<string> output, vector<string> wire);
 vector<node*> generate_tree(vector<node*> circuit, vector<string> input, vector<string> output);
 void traverse_tree(vector<node*> tree_out);
+vector<vector<node*> > generate_path(vector<node*> tree_out);
 
 class node
 {
@@ -28,4 +30,6 @@ public:
 	node* right;
 	vector<node*> parent;
 	bool visited;
+	bool visited_path;
+	stack<vector<node*> > path;
 };

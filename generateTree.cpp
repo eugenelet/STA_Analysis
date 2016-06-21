@@ -33,6 +33,8 @@ vector<node*> generate_tree(vector<node*> circuit, vector<string> input, vector<
 						if(currentNode->input[k] == circuit[l]->out)
 						{
 							currentNode->left = circuit[l];
+							currentNode->left->parent.push_back(currentNode);
+
 							//multiple fan-out point
 							if(!currentNode->left->visited){
 								queue.push_back(circuit[l]);
@@ -42,13 +44,14 @@ vector<node*> generate_tree(vector<node*> circuit, vector<string> input, vector<
 								break;
 								
 						}
-						if( l == circuit.size() ) // node is an input
+						if( l == (circuit.size() - 1) ) // node is an input, not found in circuit
 						{
 							node* dummyNode = new node;
 							dummyNode->name = currentNode->input[k];
 							dummyNode->type = "INPUT";
 							dummyNode->out = currentNode->input[k];
 							currentNode->left = dummyNode;
+							dummyNode->parent.push_back(currentNode);
 						}
 							
 					}
@@ -61,6 +64,7 @@ vector<node*> generate_tree(vector<node*> circuit, vector<string> input, vector<
 						if(currentNode->input[k] == circuit[l]->out)
 						{
 							currentNode->right = circuit[l];
+							currentNode->right->parent.push_back(currentNode);
 							//multiple fan-out point
 							if(!currentNode->right->visited){
 								queue.push_back(circuit[l]);
@@ -69,13 +73,14 @@ vector<node*> generate_tree(vector<node*> circuit, vector<string> input, vector<
 							else
 								break;
 						}
-						if( l == circuit.size() ) //node is an input
+						if( l == (circuit.size() - 1)) //node is an input
 						{
 							node* dummyNode = new node;
 							dummyNode->name = currentNode->input[k];
 							dummyNode->type = "INPUT";
 							dummyNode->out = currentNode->input[k];
 							currentNode->right = dummyNode;
+							dummyNode->parent.push_back(currentNode);
 						}
 							
 					}

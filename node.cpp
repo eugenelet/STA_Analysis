@@ -3,6 +3,7 @@
 node::node()
 {
 	visited = false;
+	visited_path = false;
 	left = NULL;
 	right = NULL;
 }
