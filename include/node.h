@@ -38,6 +38,7 @@ public:
 	stack<vector<node*> > path;
 	vector<node*> SAT_input;
 	stack<node*> BFS_stack;
+	
 };
 
 
