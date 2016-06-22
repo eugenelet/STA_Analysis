@@ -56,7 +56,7 @@ return_condition* set_input(vector<node*> path, node* current_node, int hierarch
 	if(path_loc < path.size())
 	{
 		path_loc++;
-		outcome_from_child = set_input(path, path[path_loc], hierarchy-1, 0, path_loc, input, circuit);
+		outcome_from_child = set_input(path, path[path_loc], hierarchy-1, 0, 0, input, circuit);
 	}
 
 	//good return proceed with other node (non-critical node)
@@ -80,7 +80,6 @@ return_condition* set_input(vector<node*> path, node* current_node, int hierarch
 				BFS_current_node = queue.front();
 				queue.pop_front();
 				BFS_current_node->visited = true;
-				BFS_current_node->hierarchy = hierarchy;
 				BFS_vector.push(BFS_current_node);
 
 
@@ -89,6 +88,7 @@ return_condition* set_input(vector<node*> path, node* current_node, int hierarch
 					((BFS_current_node->hierarchy >= current_node->hierarchy) || (BFS_current_node->hierarchy  == -1)) )
 				{
 					SAT_input.push_back(current_node);
+					BFS_current_node->hierarchy = hierarchy;
 				}
 
 				for(int i = 0; i < BFS_current_node->input.size(); i++)
@@ -96,11 +96,13 @@ return_condition* set_input(vector<node*> path, node* current_node, int hierarch
 					if((i == 0) && (BFS_current_node->left != NULL) && !BFS_current_node->visited &&
 						((BFS_current_node->hierarchy >= current_node->hierarchy) || (BFS_current_node->hierarchy  == -1)))
 					{
+						BFS_current_node->hierarchy = hierarchy;
 						queue.push_back(BFS_current_node->left);
 					}
 					else if((i == 1) && (BFS_current_node->right != NULL) && !BFS_current_node->visited &&
 						((BFS_current_node->hierarchy >= current_node->hierarchy) || (BFS_current_node->hierarchy  == -1)))
 					{
+						BFS_current_node->hierarchy = hierarchy;
 						queue.push_back(BFS_current_node->right);
 					}
 				}
