@@ -56,7 +56,7 @@ return_condition* set_input(vector<node*> path, node* current_node, int hierarch
 	if(path_loc < path.size())
 	{
 		path_loc++;
-		outcome_from_child = set_input(path, path[path_loc], hierarchy-1, 0, path_loc, input);
+		outcome_from_child = set_input(path, path[path_loc], hierarchy-1, 0, path_loc, input, circuit);
 	}
 
 	//good return proceed with other node (non-critical node)
@@ -174,7 +174,7 @@ return_condition* set_input(vector<node*> path, node* current_node, int hierarch
 					else
 					{
 						current_node->delay = max_delay_node->delay + 1;
-						output_value=兩端NAND結果;//not done
+						current_node->Y = ~(current_node->left->Y & current_node->right->Y);//output of NAND
 					}
 					//還沒考慮同時記得考慮
 				}
@@ -197,7 +197,7 @@ return_condition* set_input(vector<node*> path, node* current_node, int hierarch
 					}
 					else{
 						current_node->delay = max_delay_node->delay + 1;
-						output_value=兩端NOR結果;//not done
+						current_node->Y = ~(current_node->left->Y | current_node->right->Y);//output of NOR
 					}
 					//還沒考慮同時記得考慮
 				}

@@ -40,11 +40,11 @@ public:
 	stack<node*> BFS_stack;
 
 	//Left input value
-	int A;
+	bool A;
 	//Right input value
-	int B;
+	bool B;
 	//Output value
-	int Y;
+	bool Y;
 
 	// FIX: Defines critical path 
 	// -1: Not set
@@ -62,6 +62,6 @@ class return_condition
 {
 public:
 	return_condition();
-	bool set_valid;
+	bool valid;
 	unsigned int input_count;
 };
