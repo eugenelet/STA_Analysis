@@ -37,7 +37,7 @@ public:
 	int hierarchy;
 	stack<vector<node*> > path;
 	vector<node*> SAT_input;
-	stack<node*> BFS_stack;
+	stack<node*> BFS_vector;
 
 	//Left input value
 	bool A;

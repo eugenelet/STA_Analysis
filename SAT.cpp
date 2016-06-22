@@ -63,12 +63,11 @@ return_condition* set_input(vector<node*> path, node* current_node, int hierarch
 	if(outcome_from_child->valid)
 	{
 		//A BFS from current_node towards input for SAT
-		//All nodes in BFS is stored on current_node (node on critical path) Stored on BFS_stack first
+		//All nodes in BFS is stored on current_node (node on critical path) Stored on BFS_vector first
 		//SAT_input stores all input nodes that satifies current gate input settings (excludes SAT_input of child node)
 
-		clear_visited(circuit);//for BFS
 
-		stack<node*> BFS_stack;
+		vector<node*> BFS_vector;
 		vector<node*> SAT_input;
 		if(current_node->BFS_vector.size() == 0)
 		{
@@ -80,30 +79,37 @@ return_condition* set_input(vector<node*> path, node* current_node, int hierarch
 			{
 				BFS_current_node = queue.front();
 				queue.pop_front();
-				BFS_current_node->visited == true;
-				BFS_stack.push(BFS_current_node);
+				BFS_current_node->visited = true;
+				BFS_current_node->hierarchy = hierarchy;
+				BFS_vector.push(BFS_current_node);
+
 
 				//Input node has 0 input size
-				if((BFS_current_node->input.size() == 0) && !BFS_current_node->visited)
+				if((BFS_current_node->input.size() == 0) && 
+					((BFS_current_node->hierarchy >= current_node->hierarchy) || (BFS_current_node->hierarchy  == -1)) )
 				{
 					SAT_input.push_back(current_node);
 				}
 
 				for(int i = 0; i < BFS_current_node->input.size(); i++)
 				{
-					if((i == 0) && (BFS_current_node->left != NULL) && !BFS_current_node->visited)
+					if((i == 0) && (BFS_current_node->left != NULL) && !BFS_current_node->visited &&
+						((BFS_current_node->hierarchy >= current_node->hierarchy) || (BFS_current_node->hierarchy  == -1)))
 					{
 						queue.push_back(BFS_current_node->left);
 					}
-					else if((i == 1) && (BFS_current_node->right != NULL) && !BFS_current_node->visited)
+					else if((i == 1) && (BFS_current_node->right != NULL) && !BFS_current_node->visited &&
+						((BFS_current_node->hierarchy >= current_node->hierarchy) || (BFS_current_node->hierarchy  == -1)))
 					{
 						queue.push_back(BFS_current_node->right);
 					}
 				}
 			}
 		}
+
+		clear_visited(BFS_vector);//for BFS
 			
-		current_node->BFS_stack = BFS_stack;
+		current_node->BFS_vector = BFS_vector;
 		current_node->SAT_input = SAT_input;//not done yet
 
 		vector<node*> valid_SAT_input;
@@ -144,10 +150,10 @@ return_condition* set_input(vector<node*> path, node* current_node, int hierarch
 			//Check every node on BFS for "delay" and "output"
 			//Match w/ table
 			node* current_BFS_node;
-			for(int j = 0; j < BFS_stack.size(); j++)
+			for(int j = 0; j < BFS_vector.size(); j++)
 			{
-				current_BFS_node = BFS_stack.top();
-				BFS_stack.pop();
+				current_BFS_node = BFS_vector.top();
+				BFS_vector.pop();
 				//visit from INPUT to OUTPUT
 				if(current_node->type == "NOT1")
 				{
