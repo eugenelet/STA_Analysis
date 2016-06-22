@@ -30,7 +30,8 @@ return_condition* set_input(vector<node*> path, node* current_node, int hierarch
 						 unsigned int input_count, int path_loc, vector<node*> input, vector<node*> circuit)
 {
 	//Reaches input
-	if(current_node->input.size() == 0){
+	if(current_node->input.size() == 0)
+	{
 		//input not set not set
 		if(current_node->hierarchy == -1)
 		{
@@ -159,55 +160,55 @@ return_condition* set_input(vector<node*> path, node* current_node, int hierarch
 			{
 				current_BFS_node = BFS_vector[j];
 				//visit from INPUT to OUTPUT
-				if(current_node->type == "NOT1")
+				if(current_BFS_node->type == "NOT1")
 				{
-					current_node->delay = current_node->left->delay + 1;
-					current_node->Y= ~current_node->left->Y;
+					current_BFS_node->delay = current_BFS_node->left->delay + 1;
+					current_BFS_node->Y= ~current_BFS_node->left->Y;
 				}
-				else if(current_node->type == "NAND2")
+				else if(current_BFS_node->type == "NAND2")
 				{
 					node *min_delay_node, *max_delay_node;
-					if(current_node->left->delay > current_node->right->delay)
+					if(current_BFS_node->left->delay > current_BFS_node->right->delay)
 					{
-						min_delay_node = current_node->right;
+						min_delay_node = current_BFS_node->right;
 					}
 					else
 					{
-						min_delay_node = current_node->left;
+						min_delay_node = current_BFS_node->left;
 					}
 
 					if(min_delay_node->Y == 0)//controlling
 					{
-						current_node->delay = min_delay_node->delay + 1;
-						current_node->Y = 1;
+						current_BFS_node->delay = min_delay_node->delay + 1;
+						current_BFS_node->Y = 1;
 					}
 					else
 					{
-						current_node->delay = max_delay_node->delay + 1;
-						current_node->Y = ~(current_node->left->Y & current_node->right->Y);//output of NAND
+						current_BFS_node->delay = max_delay_node->delay + 1;
+						current_BFS_node->Y = ~(current_BFS_node->left->Y & current_BFS_node->right->Y);//output of NAND
 					}
 					//還沒考慮同時記得考慮
 				}
-				else if(current_node->type == "NOR2")
+				else if(current_BFS_node->type == "NOR2")
 				{
 					node *min_delay_node, *max_delay_node;
-					if(current_node->left->delay > current_node->right->delay)
+					if(current_BFS_node->left->delay > current_BFS_node->right->delay)
 					{
-						min_delay_node = current_node->right;
+						min_delay_node = current_BFS_node->right;
 					}
 					else
 					{
-						min_delay_node = current_node->left;
+						min_delay_node = current_BFS_node->left;
 					}
 
 					if(min_delay_node->Y == 1)//controlling
 					{
-						current_node->delay = min_delay_node->delay + 1;
-						current_node->Y = 0;
+						current_BFS_node->delay = min_delay_node->delay + 1;
+						current_BFS_node->Y = 0;
 					}
 					else{
-						current_node->delay = max_delay_node->delay + 1;
-						current_node->Y = ~(current_node->left->Y | current_node->right->Y);//output of NOR
+						current_BFS_node->delay = max_delay_node->delay + 1;
+						current_BFS_node->Y = ~(current_BFS_node->left->Y | current_BFS_node->right->Y);//output of NOR
 					}
 					//還沒考慮同時記得考慮
 				}
@@ -224,6 +225,8 @@ return_condition* set_input(vector<node*> path, node* current_node, int hierarch
 			}
 		
 			//use next set of inputs
+			cout <<  "INPUT_COUNT: "<< input_count << endl;
+			cout << "HIERARCHY: " << hierarchy << endl;
 			input_count++;
 			
 		
@@ -231,7 +234,7 @@ return_condition* set_input(vector<node*> path, node* current_node, int hierarch
 			return_condition* next_input_set;
 
 			//All input combinations tried, reset lower hierarchy
-			if( input_count == pow2(input.size()) )
+			if( input_count == pow2(SAT_input.size()) )
 			{
 				path_loc++;
 				if(path_loc < path.size())

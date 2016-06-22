@@ -6,17 +6,18 @@ void print( vector<node*> path,vector<node*> &circuit ,int rf)
 	node* track;
 	for(int i=0;i<circuit.size();++i)
 	{
-		circuit[i]->A=-1;
-		circuit[i]->B=-1;
-		circuit[i]->Y=-1;
+		circuit[i]->A=0;
+		circuit[i]->B=0;
+		circuit[i]->Y=0;
 		circuit[i]->fix=-1;
+		circuit[i]->hierarchy = -1;
+		circuit[i]->delay = 0;
 		if(circuit[i]->name == path[0]->name)
 			track = circuit[i];
 	}
 	for(int i=0;i<path.size();i++)
 	{
 		track->Y=jr;
-		cout << "size "<<track->parent.size()<<endl;
 		for(int j=0;j<track->parent.size();++j)
 		{
 			if(track->parent[j]->left->name == track->name)

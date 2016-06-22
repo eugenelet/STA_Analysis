@@ -7,12 +7,12 @@ node::node()
 	left = NULL;
 	right = NULL;
 	delay = -1;
-	 A=-1;
-	 B=-1;
-	 Y=-1;
-	 fix=-1;
-	 A_tf=-1;
-	 B_tf=-1;
+	A=0;
+	B=0;
+	Y=0;
+	fix=-1;
+	A_tf=-1;
+	B_tf=-1;
 	hierarchy = -1;
 }
 
