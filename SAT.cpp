@@ -84,8 +84,7 @@ return_condition* set_input(vector<node*> path, node* current_node, int hierarch
 
 
 				//Input node has 0 input size
-				if((BFS_current_node->input.size() == 0) && 
-					((BFS_current_node->hierarchy >= current_node->hierarchy) || (BFS_current_node->hierarchy  == -1)) )
+				if((BFS_current_node->input.size() == 0) && (BFS_current_node->hierarchy  == -1) )
 				{
 					SAT_input.push_back(current_node);
 					BFS_current_node->hierarchy = hierarchy;
@@ -94,13 +93,13 @@ return_condition* set_input(vector<node*> path, node* current_node, int hierarch
 				for(int i = 0; i < BFS_current_node->input.size(); i++)
 				{
 					if((i == 0) && (BFS_current_node->left != NULL) && !BFS_current_node->visited &&
-						((BFS_current_node->hierarchy >= current_node->hierarchy) || (BFS_current_node->hierarchy  == -1)))
+						 (BFS_current_node->hierarchy  == -1))
 					{
 						BFS_current_node->hierarchy = hierarchy;
 						queue.push_back(BFS_current_node->left);
 					}
 					else if((i == 1) && (BFS_current_node->right != NULL) && !BFS_current_node->visited &&
-						((BFS_current_node->hierarchy >= current_node->hierarchy) || (BFS_current_node->hierarchy  == -1)))
+						 (BFS_current_node->hierarchy  == -1))
 					{
 						BFS_current_node->hierarchy = hierarchy;
 						queue.push_back(BFS_current_node->right);
