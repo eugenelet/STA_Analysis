@@ -31,59 +31,37 @@ void clear_circuit(vector<node*> circuit)
 	{
 		circuit[i]->SAT_input.clear();
 		circuit[i]->BFS_vector.clear();
+		circuit[i]->input_count = 0;
+		circuit[i]->valid = false;
 	}
 }
 
 
-return_condition* set_input(vector<node*> path, node* current_node, int hierarchy,
-						 unsigned int input_count, int path_loc, vector<node*> input, vector<node*> circuit)
+
+bool SAT_check(vector<node*> path)
 {
-	//Reaches input
-	if(current_node->input.size() == 0)
+	//point node to input (start from input)
+	int path_count = path.size() - 1;
+	node* current_node = path[path_count];
+
+	current_node->valid = true;
+	current_node->hierarchy = 0;
+
+
+	//only terminate at path output
+	do
 	{
-		//input not set not set
-		if(current_node->hierarchy == -1)
-		{
-			current_node->parent[0]->SAT_input.push_back(current_node);//since the input node will have only 1 parent
-			current_node->hierarchy = 0;
-			return_condition* current_outcome  = new return_condition;
-			current_outcome->valid = true;
-			return current_outcome;
-		}
-		// input already set
-		else if(current_node->hierarchy == 0)
-		{
-			return_condition* current_outcome = new return_condition;
-			current_outcome->valid = false;
-			return current_outcome;
-		}
-	}
-
-
-	//return from lower hierarchy
-	return_condition* outcome_from_child = new return_condition;
-
-	path[path_loc]->hierarchy = hierarchy;
-	path_loc++;
-
-	//recurse from output to input
-	if(path_loc < path.size())
-	{
-		outcome_from_child = set_input(path, path[path_loc], hierarchy-1, input_count, path_loc, input, circuit);
-	}
-
-	//good return proceed with other node (non-critical node)
-	if(outcome_from_child->valid)
-	{
+		current_node = path[path_count];
+		current_node->hierarchy = path.size() - path_count - 1;
 		//A BFS from current_node towards input for SAT
 		//All nodes in BFS is stored on current_node (node on critical path) Stored on BFS_vector first
 		//SAT_input stores all input nodes that satifies current gate input settings (excludes SAT_input of child node)
-
 
 		vector<node*> BFS_vector;
 		vector<node*> SAT_input;
 		if(current_node->BFS_vector.size() == 0)
 		{
+			int current_hierarchy = path.size() - path_count - 1;
 			node* BFS_current_node;
 			list<node*> queue;
 			queue.push_back(current_node);
@@ -94,75 +72,52 @@ return_condition* set_input(vector<node*> path, node* current_node, int hierarch
 				queue.pop_front();
 				BFS_current_node->visited = true;
 				BFS_vector.push_back(BFS_current_node);
+				BFS_current_node->hierarchy = current_hierarchy;
 
-
-				//Input node has 0 input size && not set: hierarchy == 0
-				if((BFS_current_node->input.size() == 0) && (BFS_current_node->hierarchy  == hierarchy) )
+				//Input node has 0 input size && not set: hierarchy == -1
+				if( BFS_current_node->input.size() == 0 )
 				{
 					SAT_input.push_back(current_node);
-					BFS_current_node->hierarchy = hierarchy;
 				}
 
 				for(int i = 0; i < BFS_current_node->input.size(); i++)
 				{
 					if((i == 0) && (BFS_current_node->left != NULL) && !BFS_current_node->left->visited &&
-						 (BFS_current_node->left->hierarchy  == -1) )
+						 ((BFS_current_node->left->hierarchy == -1) || (BFS_current_node->left->hierarchy == current_hierarchy)) )
 					{
-						BFS_current_node->left->hierarchy = hierarchy;
 						queue.push_back(BFS_current_node->left);
 					}
 					else if((i == 1) && (BFS_current_node->right != NULL) && !BFS_current_node->right->visited &&
-						 (BFS_current_node->right->hierarchy  == -1) )
+						 ((BFS_current_node->right->hierarchy == -1) || (BFS_current_node->right->hierarchy == current_hierarchy)))
 					{
-						BFS_current_node->right->hierarchy = hierarchy;
 						queue.push_back(BFS_current_node->right);
 					}
 				}
 			}
 			current_node->BFS_vector = BFS_vector;
 			clear_visited(BFS_vector);//for BFS
-			for(int i = 0; i < BFS_vector.size(); i++)
-			{
-				cout << BFS_vector[i]->out << "(" << BFS_vector[i]->name << ")" << endl << endl;
-			}
+			//for(int i = 0; i < BFS_vector.size(); i++)
+			//{
+			//	cout << BFS_vector[i]->out << "(" << BFS_vector[i]->name << ")" << endl << endl;
+			//}
 		}
-		else
-		{
-			BFS_vector = current_node->BFS_vector;
-		}
+		//ELSE: current_node->BFS_vector already set
 
-			
-
-		//vector<node*> valid_SAT_input;
-		//for(int i=0;i<SAT_input.size();i++)
-		//{
-		//	//input not on critical path not set yet
-		//	if(SAT_input[i]->hierarchy == -1)
-		//	{
-		//		//set input node's hierarchy to hierarchy on the head of BFS
-		//		SAT_input[i]->hierarchy = hierarchy;
-		//		
-		//		valid_SAT_input.push_back( SAT_input[i] );
-		//	}
-		//}
-	
-		
 
 		//left with controllable inputs
 		if(current_node->SAT_input.size() == 0)
 		{
 			current_node->SAT_input = SAT_input;
 		}
-		
-		
-		//Generate binary inputs
-		int input_count_bin = input_count;
-
+		//ELSE: current_node->SAT_input already set
 		
 		//try all combinations
-		while(1)
+		while( current_node->input_count < pow2(current_node->SAT_input.size()) )
 		{
 			
+			//Generate binary inputs
+			int input_count_bin = current_node->input_count;
+
 			//convert to base 2 and set input
 			for(int i = 0; i < current_node->SAT_input.size(); i++)
 			{
@@ -234,52 +189,60 @@ return_condition* set_input(vector<node*> path, node* current_node, int hierarch
 			
 			
 			//Check if current combination of input satifies current node (critical node)
+			//if TRUE, break LOOP and proceed with next node (done below)
 			if(node_judge(current_node))
 			{
-				cout << "TESTTTT" << endl;
-				return_condition* current_outcome = new return_condition;
-				current_outcome->valid = true;
-				current_outcome->input_count = input_count;
-				return current_outcome;
+				current_node->valid = true;
+				break;
 			}
-		
-			//use next set of inputs
-			cout <<  "INPUT_COUNT: "<< input_count << endl;
-			cout << "HIERARCHY: " << hierarchy << endl;
-			input_count++;
-			
-		
-			//If all combinations tried, jump to lower hierarchy
-			return_condition* next_input_set;
-			cout << "SAT: "<< SAT_input.size() << endl;
-			next_input_set->input_count = input_count;
-			//All input combinations tried, reset lower hierarchy
-			if( input_count < pow2(SAT_input.size()) )
-			{
-				//Try a different set of input based on current node
-				next_input_set = set_input(path, path[path.size() - hierarchy - 1], hierarchy, 
-					input_count, path_loc, input, circuit);
 
-				if(!next_input_set->valid)
-				{
-					return_condition* current_outcome  = new return_condition;
-					current_outcome->valid = false;
-					return current_outcome;//return to higher hierarchy, report failure
-				}
-				else 
-				{
-					//SUCCESS, start with new set of inputs
-					input_count = 0;
-				}
+			//FAIL!!!
+
+			//turn current node FALSE
+			current_node->valid = false;
+			//current input combination fail, use next set of inputs
+			current_node->input_count++;
+			
+		}
+
+		//valid SAT, proceed with next node
+		if(current_node->valid)
+		{
+			path_count--;
+
+			//current node valid and reached the output node
+			if(path_count < 0)
+			{
+				return true;
 			}
 		}
+
+		//FAIL
+		else if( (current_node->input_count == pow2(current_node->SAT_input.size())) )
+		{
+			//reset to 0 for next combinations
+			current_node->input_count = 0;
+
+			//backtrace to input
+			path_count++;
+
+			//Already beyond INPUT nodes, FALSE PATH!
+			if(path_count == path.size())
+			{
+				return false;
+			}
+
+			//try next combination of input
+			path[path_count]->input_count++;
+
+		}
+
 	}
-	
-	//Lower hierarchy tried all combinations and fail
-	else
-	{
-		return_condition* current_outcome = new return_condition;
-		current_outcome->valid = false;
-		return current_outcome;
-	}
+	while(current_node != path[0]);//reaches output node
+
+	//if TRUE PATH, should return inside
+	return false;
+
 }
+
+

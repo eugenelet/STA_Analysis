@@ -14,6 +14,8 @@ node::node()
 	A_tf=-1;
 	B_tf=-1;
 	hierarchy = -1;
+	input_count = 0;
+	valid = false;
 }
 
 return_condition::return_condition()

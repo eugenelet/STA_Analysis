@@ -41,18 +41,20 @@ int main(int argc, char * argv[])
 	for(int i = 0; i < total_path.size(); i++)
 	{
 		print( total_path[i], circuit , 1);
-		test=set_input(total_path[i], total_path[i][0], total_path[i].size() - 1, 0, 0, input_node, circuit);
+		//test=set_input(total_path[i], total_path[i][0], total_path[i].size() - 1, 0, 0, input_node, circuit);
+
 		for(int k = 0; k < total_path[i].size(); k++)
 		{
 			cout << total_path[i][k]->name << "[" << total_path[i][k]->out << "]" << "(" << total_path[i][k]->delay  << ")"<< " -> ";
 		}
-		cout << endl;
-		cout<<" outcome: "<<test->valid<<endl;
 
-		for(int j=0; j < input_node.size(); j++)
-		{
-			cout << input_node[j]->Y <<" ";
-		}
+		cout << endl;
+		//cout<<" outcome: "<<test->valid<<endl;
+		cout << "TRUE: " << SAT_check(total_path[i]) << endl;
+		//for(int j=0; j < input_node.size(); j++)
+		//{
+		//	cout << input_node[j]->Y <<" ";
+		//}
 		cout << endl << endl;
 		clear_circuit(circuit);
 	}
