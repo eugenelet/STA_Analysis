@@ -38,10 +38,21 @@ public:
 	stack<vector<node*> > path;
 	vector<node*> SAT_input;
 	stack<node*> BFS_stack;
+
+	//Left input value
 	int A;
+	//Right input value
 	int B;
+	//Output value
 	int Y;
+
+	// FIX: Defines critical path 
+	// -1: Not set
+	// 	0: A is critical path
+	// 	1: B is critical path
 	int fix;
+
+	//True False value of A and B
 	int A_tf;
 	int B_tf;
 };
