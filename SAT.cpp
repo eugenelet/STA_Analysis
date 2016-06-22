@@ -87,7 +87,7 @@ return_condition* set_input(vector<node*> path, node* current_node, int hierarch
 
 
 				//Input node has 0 input size && not set: hierarchy == 0
-				if((BFS_current_node->input.size() == 0) && (BFS_current_node->hierarchy  == 0) )
+				if((BFS_current_node->input.size() == 0) && (BFS_current_node->hierarchy  == -1) )
 				{
 					SAT_input.push_back(current_node);
 					BFS_current_node->hierarchy = hierarchy;
@@ -135,7 +135,10 @@ return_condition* set_input(vector<node*> path, node* current_node, int hierarch
 		
 
 		//left with controllable inputs
-		current_node->SAT_input = SAT_input;
+		if(current_node->SAT_input.size() == 0)
+		{
+			current_node->SAT_input = SAT_input;
+		}
 		
 		
 		//Generate binary inputs
