@@ -53,6 +53,7 @@ return_condition* set_input(vector<node*> path, node* current_node, int hierarch
 	//return from lower hierarchy
 	return_condition* outcome_from_child = new return_condition;
 
+	path[path_loc]->hierarchy = hierarchy;
 	path_loc++;
 
 	//recurse from output to input
@@ -85,8 +86,8 @@ return_condition* set_input(vector<node*> path, node* current_node, int hierarch
 				BFS_vector.push_back(BFS_current_node);
 
 
-				//Input node has 0 input size
-				if((BFS_current_node->input.size() == 0) && (BFS_current_node->hierarchy  == -1) )
+				//Input node has 0 input size && not set: hierarchy == 0
+				if((BFS_current_node->input.size() == 0) && (BFS_current_node->hierarchy  == 0) )
 				{
 					SAT_input.push_back(current_node);
 					BFS_current_node->hierarchy = hierarchy;
@@ -94,16 +95,16 @@ return_condition* set_input(vector<node*> path, node* current_node, int hierarch
 
 				for(int i = 0; i < BFS_current_node->input.size(); i++)
 				{
-					if((i == 0) && (BFS_current_node->left != NULL) && !BFS_current_node->visited &&
-						 (BFS_current_node->hierarchy  == -1))
+					if((i == 0) && (BFS_current_node->left != NULL) && !BFS_current_node->left->visited &&
+						 (BFS_current_node->left->hierarchy  == -1))
 					{
-						BFS_current_node->hierarchy = hierarchy;
+						BFS_current_node->left->hierarchy = hierarchy;
 						queue.push_back(BFS_current_node->left);
 					}
-					else if((i == 1) && (BFS_current_node->right != NULL) && !BFS_current_node->visited &&
-						 (BFS_current_node->hierarchy  == -1))
+					else if((i == 1) && (BFS_current_node->right != NULL) && !BFS_current_node->right->visited &&
+						 (BFS_current_node->right->hierarchy  == -1))
 					{
-						BFS_current_node->hierarchy = hierarchy;
+						BFS_current_node->right->hierarchy = hierarchy;
 						queue.push_back(BFS_current_node->right);
 					}
 				}
@@ -218,6 +219,7 @@ return_condition* set_input(vector<node*> path, node* current_node, int hierarch
 			//Check if current combination of input satifies current node (critical node)
 			if(node_judge(current_node))
 			{
+				cout << "TESTTTT" << endl;
 				return_condition* current_outcome = new return_condition;
 				current_outcome->valid = true;
 				current_outcome->input_count = input_count;
