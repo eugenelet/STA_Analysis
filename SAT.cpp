@@ -2,7 +2,7 @@
 
 uint64_t pow2(int base)
 {
-	uint64_t current_val = 2;
+	uint64_t current_val = 1;
 	if(base == 0)
 	{
 		return 1;
@@ -47,6 +47,9 @@ bool SAT_check(vector<node*> path)
 	current_node->valid = true;
 	current_node->hierarchy = 0;
 
+	//skip over input
+	path_count--;
+
 
 	//only terminate at path output
 	do
@@ -71,13 +74,13 @@ bool SAT_check(vector<node*> path)
 				BFS_current_node = queue.front();
 				queue.pop_front();
 				BFS_current_node->visited = true;
-				BFS_vector.push_back(BFS_current_node);
 				BFS_current_node->hierarchy = current_hierarchy;
+				BFS_vector.push_back(BFS_current_node);
 
 				//Input node has 0 input size && not set: hierarchy == -1
 				if( BFS_current_node->input.size() == 0 )
 				{
-					SAT_input.push_back(current_node);
+					SAT_input.push_back(BFS_current_node);
 				}
 
 				for(int i = 0; i < BFS_current_node->input.size(); i++)
@@ -128,63 +131,9 @@ bool SAT_check(vector<node*> path)
 			
 			//Check every node on BFS for "delay" and "output"
 			//Match w/ table
-			node* current_BFS_node;
-			for(int j = BFS_vector.size() - 1; j >= 0; j--)
+			for(int j = current_node->BFS_vector.size() - 1; j >= 0; j--)
 			{
-				current_BFS_node = BFS_vector[j];
-				//visit from INPUT to OUTPUT
-				if(current_BFS_node->type == "NOT1")
-				{
-					current_BFS_node->delay = current_BFS_node->left->delay + 1;
-					current_BFS_node->Y= ~current_BFS_node->left->Y;
-				}
-				else if(current_BFS_node->type == "NAND2")
-				{
-					node *min_delay_node, *max_delay_node;
-					if(current_BFS_node->left->delay > current_BFS_node->right->delay)
-					{
-						min_delay_node = current_BFS_node->right;
-					}
-					else
-					{
-						min_delay_node = current_BFS_node->left;
-					}
-
-					if(min_delay_node->Y == 0)//controlling
-					{
-						current_BFS_node->delay = min_delay_node->delay + 1;
-						current_BFS_node->Y = 1;
-					}
-					else
-					{
-						current_BFS_node->delay = max_delay_node->delay + 1;
-						current_BFS_node->Y = ~(current_BFS_node->left->Y & current_BFS_node->right->Y);//output of NAND
-					}
-					//還沒考慮同時記得考慮
-				}
-				else if(current_BFS_node->type == "NOR2")
-				{
-					node *min_delay_node, *max_delay_node;
-					if(current_BFS_node->left->delay > current_BFS_node->right->delay)
-					{
-						min_delay_node = current_BFS_node->right;
-					}
-					else
-					{
-						min_delay_node = current_BFS_node->left;
-					}
-
-					if(min_delay_node->Y == 1)//controlling
-					{
-						current_BFS_node->delay = min_delay_node->delay + 1;
-						current_BFS_node->Y = 0;
-					}
-					else{
-						current_BFS_node->delay = max_delay_node->delay + 1;
-						current_BFS_node->Y = ~(current_BFS_node->left->Y | current_BFS_node->right->Y);//output of NOR
-					}
-					//還沒考慮同時記得考慮
-				}
+				node_judge_for_every_cell(current_node->BFS_vector[j]);
 			}
 			
 			
@@ -223,17 +172,28 @@ bool SAT_check(vector<node*> path)
 			//reset to 0 for next combinations
 			current_node->input_count = 0;
 
+			//Generate binary inputs
+			int input_count_bin = current_node->input_count;
+
+			//convert to base 2 and set input
+			for(int i = 0; i < current_node->SAT_input.size(); i++)
+			{
+				current_node->SAT_input[i]->Y = input_count_bin % 2;
+				input_count_bin >>= 1;
+			}
+
 			//backtrace to input
 			path_count++;
 
 			//Already beyond INPUT nodes, FALSE PATH!
-			if(path_count == path.size())
+			if(path_count == (path.size() - 1))
 			{
 				return false;
 			}
 
 			//try next combination of input
 			path[path_count]->input_count++;
+			path[path_count]->valid = false;
 
 		}
 

@@ -27,6 +27,7 @@ void print( vector<node*> path,vector<node*> &circuit ,int rf);
 void clear_visited(vector<node*> circuit);
 void clear_circuit(vector<node*> circuit);
 bool SAT_check(vector<node*> path);
+bool node_judge_for_every_cell(node* current);
 class node
 {
 public:

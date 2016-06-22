@@ -40,7 +40,7 @@ int main(int argc, char * argv[])
 	clear_visited(circuit);
 	for(int i = 0; i < total_path.size(); i++)
 	{
-		print( total_path[i], circuit , 1);
+		print( total_path[i], circuit , 0);
 		//test=set_input(total_path[i], total_path[i][0], total_path[i].size() - 1, 0, 0, input_node, circuit);
 
 		for(int k = 0; k < total_path[i].size(); k++)
@@ -51,10 +51,10 @@ int main(int argc, char * argv[])
 		cout << endl;
 		//cout<<" outcome: "<<test->valid<<endl;
 		cout << "TRUE: " << SAT_check(total_path[i]) << endl;
-		//for(int j=0; j < input_node.size(); j++)
-		//{
-		//	cout << input_node[j]->Y <<" ";
-		//}
+		for(int j=0; j < input_node.size(); j++)
+		{
+			cout << input_node[j]->Y <<" ";
+		}
 		cout << endl << endl;
 		clear_circuit(circuit);
 	}
