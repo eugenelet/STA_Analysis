@@ -52,10 +52,11 @@ return_condition* set_input(vector<node*> path, node* current_node, int hierarch
 	//return from lower hierarchy
 	return_condition* outcome_from_child = new return_condition;
 
+	path_loc++;
+
 	//recurse from output to input
 	if(path_loc < path.size())
 	{
-		path_loc++;
 		outcome_from_child = set_input(path, path[path_loc], hierarchy-1, input_count, path_loc, input, circuit);
 	}
 
@@ -233,7 +234,10 @@ return_condition* set_input(vector<node*> path, node* current_node, int hierarch
 			if( input_count == pow2(input.size()) )
 			{
 				path_loc++;
-				next_input_set = set_input(path, path[path_loc], hierarchy-1, input_count, path_loc, input, circuit);
+				if(path_loc < path.size())
+				{
+					next_input_set = set_input(path, path[path_loc], hierarchy-1, input_count, path_loc, input, circuit);
+				}
 				if(!next_input_set->valid)
 				{
 					return_condition* current_outcome  = new return_condition;
