@@ -56,7 +56,7 @@ return_condition* set_input(vector<node*> path, node* current_node, int hierarch
 	if(path_loc < path.size())
 	{
 		path_loc++;
-		outcome_from_child = set_input(path, path[path_loc], hierarchy-1, 0, 0, input, circuit);
+		outcome_from_child = set_input(path, path[path_loc], hierarchy-1, input_count, path_loc, input, circuit);
 	}
 
 	//good return proceed with other node (non-critical node)
@@ -154,7 +154,7 @@ return_condition* set_input(vector<node*> path, node* current_node, int hierarch
 			//Check every node on BFS for "delay" and "output"
 			//Match w/ table
 			node* current_BFS_node;
-			for(int j = 0; j < BFS_vector.size(); j++)
+			for(int j = BFS_vector.size() - 1; j >= 0; j--)
 			{
 				current_BFS_node = BFS_vector[j];
 				//visit from INPUT to OUTPUT

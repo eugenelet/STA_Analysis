@@ -34,9 +34,11 @@ int main(int argc, char * argv[])
 	tree_out = generate_tree(circuit, input, output, input_node);
 	//traverse_tree(tree_out);
 	total_path = generate_path(tree_out);
+
 	for(int i = 0; i < total_path.size(); i++)
 	{
-		set_input(total_path[i], total_path[i][0], total_path[i].size() - 1, input_node.size(), 0, input_node, circuit);
+		print( total_path[i], circuit , 1);
+		set_input(total_path[i], total_path[i][0], total_path[i].size() - 1, 0, 0, input_node, circuit);
 	}
 
 	

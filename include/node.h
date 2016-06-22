@@ -21,6 +21,7 @@ vector<vector<node*> > generate_path(vector<node*> tree_out);
 void print_input(vector<node*> input_node);
 void print_circuit(vector<node*> circuit);
 bool node_judge(node* current);
+void print( vector<node*> path,vector<node*> &circuit ,int rf);
 return_condition* set_input(vector<node*> path, node* current_node, int hierarchy,
 						 unsigned int input_count, int path_loc, vector<node*> input, vector<node*> circuit);
 class node
