@@ -80,7 +80,7 @@ return_condition* set_input(vector<node*> path, node* current_node, int hierarch
 				BFS_current_node = queue.front();
 				queue.pop_front();
 				BFS_current_node->visited = true;
-				BFS_vector.push(BFS_current_node);
+				BFS_vector.push_back(BFS_current_node);
 
 
 				//Input node has 0 input size
@@ -106,12 +106,15 @@ return_condition* set_input(vector<node*> path, node* current_node, int hierarch
 					}
 				}
 			}
+			current_node->BFS_vector = BFS_vector;
+			clear_visited(BFS_vector);//for BFS
+		}
+		else
+		{
+			BFS_vector = current_node->BFS_vector;
 		}
 
-		clear_visited(BFS_vector);//for BFS
 			
-		current_node->BFS_vector = BFS_vector;
-		current_node->SAT_input = SAT_input;//not done yet
 
 		//vector<node*> valid_SAT_input;
 		//for(int i=0;i<SAT_input.size();i++)
@@ -143,7 +146,7 @@ return_condition* set_input(vector<node*> path, node* current_node, int hierarch
 			//convert to base 2 and set input
 			for(int i = 0; i < current_node->SAT_input.size(); i++)
 			{
-				current_node->SAT_input[i] = input_count_bin % 2;
+				current_node->SAT_input[i]->Y = input_count_bin % 2;
 				input_count_bin >>= 1;
 			}
 			
@@ -153,15 +156,14 @@ return_condition* set_input(vector<node*> path, node* current_node, int hierarch
 			node* current_BFS_node;
 			for(int j = 0; j < BFS_vector.size(); j++)
 			{
-				current_BFS_node = BFS_vector.top();
-				BFS_vector.pop();
+				current_BFS_node = BFS_vector[j];
 				//visit from INPUT to OUTPUT
 				if(current_node->type == "NOT1")
 				{
 					current_node->delay = current_node->left->delay + 1;
 					current_node->Y= ~current_node->left->Y;
 				}
-				else if(current_node->type = "NAND2")
+				else if(current_node->type == "NAND2")
 				{
 					node *min_delay_node, *max_delay_node;
 					if(current_node->left->delay > current_node->right->delay)
@@ -185,7 +187,7 @@ return_condition* set_input(vector<node*> path, node* current_node, int hierarch
 					}
 					//還沒考慮同時記得考慮
 				}
-				else if(current_node->type = "NOR2")
+				else if(current_node->type == "NOR2")
 				{
 					node *min_delay_node, *max_delay_node;
 					if(current_node->left->delay > current_node->right->delay)
