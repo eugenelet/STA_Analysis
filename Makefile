@@ -1,9 +1,9 @@
 CC=g++
 CFLAGS=-c -Wall
-DFLAGS=-g
+DFLAGS=-g -O3
 OUT=EDA
 SRC=main.cpp parser.cpp debug.cpp generateTree.cpp node.cpp print.cpp node_judge.cpp SAT.cpp node_judge_for_every_cell.cpp
-CASE=case/case_test
+CASE=case/case1
 
 
 all: $(OUT)
