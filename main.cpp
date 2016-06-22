@@ -36,7 +36,7 @@ int main(int argc, char * argv[])
 	total_path = generate_path(tree_out);
 	for(int i = 0; i < total_path.size(); i++)
 	{
-		set_input(total_path[i], total_path[i][0], total_path[i].size() - 1, input_node.size(), path_loc, input_node, circuit);
+		set_input(total_path[i], total_path[i][0], total_path[i].size() - 1, input_node.size(), 0, input_node, circuit);
 	}
 
 	

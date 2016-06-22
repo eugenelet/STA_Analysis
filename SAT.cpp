@@ -2,7 +2,7 @@
 
 uint64_t pow2(int base)
 {
-	current_val = 2;
+	uint64_t current_val = 2;
 	if(base == 0)
 	{
 		return 1;
@@ -113,23 +113,23 @@ return_condition* set_input(vector<node*> path, node* current_node, int hierarch
 		current_node->BFS_vector = BFS_vector;
 		current_node->SAT_input = SAT_input;//not done yet
 
-		vector<node*> valid_SAT_input;
-		for(int i=0;i<SAT_input.size();i++)
-		{
-			//input not on critical path not set yet
-			if(SAT_input[i]->hierarchy == -1)
-			{
-				//set input node's hierarchy to hierarchy on the head of BFS
-				SAT_input[i]->hierarchy = hierarchy;
-				
-				valid_SAT_input.push_back( input_pointer_vector[i] );
-			}
-		}
+		//vector<node*> valid_SAT_input;
+		//for(int i=0;i<SAT_input.size();i++)
+		//{
+		//	//input not on critical path not set yet
+		//	if(SAT_input[i]->hierarchy == -1)
+		//	{
+		//		//set input node's hierarchy to hierarchy on the head of BFS
+		//		SAT_input[i]->hierarchy = hierarchy;
+		//		
+		//		valid_SAT_input.push_back( SAT_input[i] );
+		//	}
+		//}
 	
 		
 
 		//left with controllable inputs
-		current_node->SAT_input = valid_SAT_input;
+		current_node->SAT_input = SAT_input;
 		
 		
 		//Generate binary inputs

@@ -18,6 +18,6 @@ node::node()
 
 return_condition::return_condition()
 {
-	set_valid = true;
+	valid = true;
 	input_count = 0;
 }

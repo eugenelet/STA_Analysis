@@ -10,6 +10,7 @@
 using namespace std;
 
 class node;
+class return_condition;
 
 void parse_circuit(const string  &circuit_path ,vector<node*> &circuit ,vector<string> &input ,
 vector<string> &output ,vector<string> &wire );
