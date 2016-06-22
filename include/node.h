@@ -24,6 +24,8 @@ bool node_judge(node* current);
 void print( vector<node*> path,vector<node*> &circuit ,int rf);
 return_condition* set_input(vector<node*> path, node* current_node, int hierarchy,
 						 unsigned int input_count, int path_loc, vector<node*> input, vector<node*> circuit);
+void clear_visited(vector<node*> circuit);
+void clear_circuit(vector<node*> circuit);
 class node
 {
 public:

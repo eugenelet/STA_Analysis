@@ -37,6 +37,7 @@ int main(int argc, char * argv[])
 
 
 	return_condition* test;
+	clear_visited(circuit);
 	for(int i = 0; i < total_path.size(); i++)
 	{
 		print( total_path[i], circuit , 1);
@@ -53,6 +54,7 @@ int main(int argc, char * argv[])
 			cout << input_node[j]->Y <<" ";
 		}
 		cout << endl << endl;
+		clear_circuit(circuit);
 	}
 
 	

@@ -25,6 +25,15 @@ void clear_visited(vector<node*> circuit)
 	}
 }
 
+void clear_circuit(vector<node*> circuit)
+{
+	for(int i = 0; i < circuit.size(); i++)
+	{
+		circuit[i]->SAT_input.clear();
+		circuit[i]->BFS_vector.clear();
+	}
+}
+
 
 return_condition* set_input(vector<node*> path, node* current_node, int hierarchy,
 						 unsigned int input_count, int path_loc, vector<node*> input, vector<node*> circuit)
@@ -35,6 +44,7 @@ return_condition* set_input(vector<node*> path, node* current_node, int hierarch
 		//input not set not set
 		if(current_node->hierarchy == -1)
 		{
+			current_node->parent[0]->SAT_input.push_back(current_node);//since the input node will have only 1 parent
 			current_node->hierarchy = 0;
 			return_condition* current_outcome  = new return_condition;
 			current_outcome->valid = true;
@@ -96,13 +106,13 @@ return_condition* set_input(vector<node*> path, node* current_node, int hierarch
 				for(int i = 0; i < BFS_current_node->input.size(); i++)
 				{
 					if((i == 0) && (BFS_current_node->left != NULL) && !BFS_current_node->left->visited &&
-						 (BFS_current_node->left->hierarchy  == -1))
+						 (BFS_current_node->left->hierarchy  == -1) )
 					{
 						BFS_current_node->left->hierarchy = hierarchy;
 						queue.push_back(BFS_current_node->left);
 					}
 					else if((i == 1) && (BFS_current_node->right != NULL) && !BFS_current_node->right->visited &&
-						 (BFS_current_node->right->hierarchy  == -1))
+						 (BFS_current_node->right->hierarchy  == -1) )
 					{
 						BFS_current_node->right->hierarchy = hierarchy;
 						queue.push_back(BFS_current_node->right);
@@ -111,6 +121,10 @@ return_condition* set_input(vector<node*> path, node* current_node, int hierarch
 			}
 			current_node->BFS_vector = BFS_vector;
 			clear_visited(BFS_vector);//for BFS
+			for(int i = 0; i < BFS_vector.size(); i++)
+			{
+				cout << BFS_vector[i]->out << "(" << BFS_vector[i]->name << ")" << endl << endl;
+			}
 		}
 		else
 		{
