@@ -97,7 +97,7 @@ return_condition* set_input(vector<node*> path, node* current_node, int hierarch
 
 
 				//Input node has 0 input size && not set: hierarchy == 0
-				if((BFS_current_node->input.size() == 0) && (BFS_current_node->hierarchy  == -1) )
+				if((BFS_current_node->input.size() == 0) && (BFS_current_node->hierarchy  == hierarchy) )
 				{
 					SAT_input.push_back(current_node);
 					BFS_current_node->hierarchy = hierarchy;
@@ -251,15 +251,15 @@ return_condition* set_input(vector<node*> path, node* current_node, int hierarch
 		
 			//If all combinations tried, jump to lower hierarchy
 			return_condition* next_input_set;
-
+			cout << "SAT: "<< SAT_input.size() << endl;
+			next_input_set->input_count = input_count;
 			//All input combinations tried, reset lower hierarchy
-			if( input_count == pow2(SAT_input.size()) )
+			if( input_count < pow2(SAT_input.size()) )
 			{
-				path_loc++;
-				if(path_loc < path.size())
-				{
-					next_input_set = set_input(path, path[path_loc], hierarchy-1, input_count, path_loc, input, circuit);
-				}
+				//Try a different set of input based on current node
+				next_input_set = set_input(path, path[path.size() - hierarchy - 1], hierarchy, 
+					input_count, path_loc, input, circuit);
+
 				if(!next_input_set->valid)
 				{
 					return_condition* current_outcome  = new return_condition;
